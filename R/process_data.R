@@ -29,7 +29,7 @@ process_data <- function(path) {
     time <- XML::xpathSApply(pfile, path = "//trkpt/time", XML::xmlValue)
 
     # Put everything in a data frame
-    result <- data.frame(lat = lat, lon = lon, ele = ele, time = time, type = type) %>%
+    result <- data.frame(lat = lat, lon = lon, time = time, type = type) %>%
       dplyr::mutate(dist_to_prev = c(0, sp::spDists(x = as.matrix(.[, c("lon", "lat")]), longlat = TRUE, segments = TRUE)),
              cumdist = cumsum(dist_to_prev),
              time = as.POSIXct(.$time, tz = "GMT", format = "%Y-%m-%dT%H:%M:%OS")) %>%
